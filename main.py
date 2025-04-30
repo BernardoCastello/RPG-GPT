@@ -4,7 +4,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel
 from typing import List, Dict
 from RoleplayGPT import RoleplayGPT
-from speech_to_text import transcribe_audio
+from SpeechToText import SpeechToText
 from TextToSpeech import AzureTextToSpeechProcessor
 import os
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ import io
 load_dotenv()
 
 # Inicializa FastAPI
-app = FastAPI()
+app = FastAPI()   # uvicorn main:app --reload
 
 # Libera CORS para o frontend
 app.add_middleware(
@@ -64,7 +64,7 @@ async def continue_roleplay(data: MessageRequest):
 async def audio_to_text(file: UploadFile = File(...)):
     try:
         audio_bytes = await file.read()
-        transcription = transcribe_audio(audio_bytes)
+        transcription = SpeechToText.transcribe_audio(audio_bytes)
         return { "transcription": transcription }
     except Exception as e:
         return JSONResponse(status_code=500, content={"erro": str(e)})

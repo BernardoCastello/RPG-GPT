@@ -11,7 +11,7 @@ class SpeechToText:
         self.model = model
         self.language = language
 
-    def transcribe_file(self, audio_path: str) -> str:
+    def transcribe_audio(self, audio_path: str) -> str:
         """
         Envia um arquivo de áudio para a API da OpenAI e retorna a transcrição.
         """
