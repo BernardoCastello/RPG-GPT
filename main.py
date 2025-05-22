@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
 from pydantic import BaseModel
 from typing import List, Dict
-from RoleplayGPT import RoleplayGPT
+from RoleplayChat import RoleplayChat
 from SpeechToText import SpeechToText
 from TextToSpeech import AzureTextToSpeechProcessor
 import os
@@ -46,8 +46,9 @@ roleplay = None
 @app.post("/api/start")
 async def start_roleplay(data: StartRequest):
     global roleplay
-    roleplay = RoleplayGPT(data.prompt_name, data.user_name, data.user_description)
+    roleplay = RoleplayChat(data.prompt_name, data.user_name, data.user_description)
     return { "status": "iniciado", "mensagem_inicial": roleplay.history[-1]['content'] }
+    #return { "status": "iniciado"}
 
 @app.post("/api/roleplay")
 async def continue_roleplay(data: MessageRequest):
